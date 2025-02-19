@@ -1,11 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Website</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+
+  <nav>
+    <a href="#" class="logo"><p>NAM-VRI</p></a>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#methods">Methods</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Wind Speed Discrepancy Analysis and VRI Polygon Optimization with NAM Data</h1>
+    <div class="repo-container">
+        <a href="#" class="repo-box">Website Repo</a>
+        <a href="#" class="repo-box">Code Repo</a>
+        <a href="#" class="repo-box">Report</a>
+    </div>
+ </header>
+
+  <section id="introduction">
+        <div class="section-card">
+            <h2>Introduction</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, purus eget laoreet tempor, neque
+                risus
+                varius orci, et auctor magna ligula a enim. Vivamus sit amet turpis sit amet ante posuere feugiat. Sed at
+                arcu
+                dolor. Proin eget arcu sed felis pretium scelerisque.</p>
+            <p>Curabitur vel ligula urna. Integer ac ipsum at urna luctus egestas. Ut convallis, nulla ac dapibus
+                ultricies,
+                urna ante suscipit elit, sed tincidunt turpis ante ac turpis. Aenean eget lacus sit amet purus feugiat
+                dignissim.</p>
+        </div>
+    </section>
+
+    <section id="methods">
+        <div class="section-card">
+            <h2>Methods</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id volutpat neque. Aenean aliquam est a
+                est
+                fermentum, ut facilisis ipsum posuere. Donec ornare ante dui, nec malesuada ante euismod vitae. Etiam at
+                augue
+                nec purus pharetra suscipit sit amet quis orci. Nam sollicitudin neque felis, nec fermentum dui pretium
+                non.</p>
+            <ul>
+                <li>Lorem ipsum dolor sit amet</li>
+                <li>Quisque id volutpat neque</li>
+                <li>Donec ornare ante dui</li>
+                <li>Nam sollicitudin neque felis</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="results">
+        <div class="section-card">
+            <h2>Results</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non sapien nec mauris suscipit elementum
+                vitae
+                sit amet neque. Nulla eget velit nec arcu luctus feugiat. Cras non est in leo interdum varius non vitae
+                risus.
+                Aenean sollicitudin vestibulum lacus sit amet tincidunt. Sed tempus ex et nunc pharetra tincidunt. Vivamus
+                sed
+                tortor sit amet ligula ullamcorper fermentum a nec augue.</p>
+            <p>Nam convallis elit libero, et convallis mauris hendrerit non. Integer id auctor libero. Ut scelerisque
+                sapien et
+                risus ultricies malesuada. Duis interdum est at orci pretium malesuada. Donec eget nunc a odio dictum
+                vestibulum.
+            </p>
+        </div>
+    </section>
+
+    <section id="conclusion">
+        <div class="section-card">
+            <h2>Conclusion</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat felis ut risus faucibus tincidunt.
+                Mauris
+                vitae ex sollicitudin, gravida ipsum a, egestas lorem. Nam fringilla nisi eget erat volutpat, non mollis
+                ligula
+                suscipit. Donec a scelerisque nunc. Ut sollicitudin tincidunt tempor.</p>
+            <p>Nulla facilisi. Fusce condimentum lorem non felis laoreet fermentum. Morbi finibus at orci a condimentum. Etiam
+                vitae
+                felis auctor, auctor odio at, tincidunt elit. Ut eu justo ut sapien consectetur vestibulum a sit amet leo.</p>
+        </div>
+    </section>
+
 </body>
 </html>
+
+
+<script>
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 0) {
+      nav.classList.add('scrolled'); // Adds the white line when scrolled
+    } else {
+      nav.classList.remove('scrolled'); // Removes the white line when at top
+    }
+  });
+</script>

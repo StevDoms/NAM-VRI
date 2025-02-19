@@ -1,0 +1,228 @@
+html {
+  scroll-padding-top: 80px; /* Adjust based on navbar height */
+  scroll-behavior: smooth; /* Optional: Enables smooth scrolling */
+}
+
+/* General Page Styles */
+body {
+  background-color: #FFF;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-top: 80px; /* Offset for fixed navbar */
+}
+
+/* Header Section */
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Move content towards the top */
+  align-items: center;
+  text-align: center;
+  height: calc(100vh - 200px); /* Subtract the top padding from 100vh */
+  background-color: #001f3f; /* Dark blue background */
+  color: white;
+  gap: 20px;
+  padding-top: 150px; /* Adds space between top and title */
+}
+
+/* Big Title */
+header h1 {
+  font-size: 48px;
+  font-weight: bold;
+  max-width: 50%;
+  margin-bottom: 20px; /* Adjust bottom margin to pull the title up a bit */
+}
+
+/* Repo Container */
+.repo-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Repo Boxes */
+.repo-box {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  background: #003366; /* Blue tone */
+  padding: 20px;
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.repo-box:hover {
+  background: #0055aa; /* Lighter blue */
+  transform: scale(1.05);
+}
+
+nav {
+  background-color: #001f3f;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px; /* Keep horizontal padding but reduce overall size */
+  box-sizing: border-box;
+}
+
+/* Style for the logo */
+nav .logo {
+  text-decoration: none; /* Remove underline */
+}
+
+nav .logo p {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  cursor: pointer;
+}
+
+nav .logo:hover p {
+  opacity: 0.9;
+}
+
+/* Navigation List */
+nav ul {
+  background-color: transparent;
+  list-style: none;
+  padding: 0;
+  margin: 0; /* Remove margin-left */
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  text-transform: uppercase;
+}
+
+nav ul li {
+  display: inline;
+}
+
+/* Navigation Links */
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 0px;
+  position: relative;
+}
+
+/* Underline effect */
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Adjust spacing */
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Hover effect: Expand underline from left to right */
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* Slight opacity change */
+nav ul li a:hover {
+  opacity: 0.9;
+}
+
+/* Section Styling */
+section {
+  padding: 60px 30px; /* More padding for a spacious look */
+  background-color: #F4F7FA; /* Light gray background for the section */
+  color: #333; /* Dark text for readability */
+  box-sizing: border-box;
+  font-size: 18px; /* Slightly larger font size for readability */
+  line-height: 1.6; /* Better line height for ease of reading */
+}
+
+/* Section Headers */
+section h2 {
+  color: #003366; /* Dark blue headers to align with landing page */
+  font-size: 32px; /* Larger font size for section headings */
+  margin-bottom: 20px; /* Add some space below the header */
+  font-weight: bold;
+  text-align: center; /* Center-align section headings */
+}
+
+/* Paragraph Styling */
+section p {
+  color: #333; /* Ensure good contrast for text */
+  margin-bottom: 25px; /* Space between paragraphs */
+  text-align: justify; /* Justified text for a neat, aligned look */
+}
+
+/* Section Links */
+section a {
+  color: #005e92; /* Blue links for consistency */
+  text-decoration: none;
+  font-weight: bold; /* Make links stand out */
+}
+
+section a:hover {
+  color: #003366; /* Darker blue on hover for emphasis */
+  text-decoration: underline; /* Underline on hover for interactivity */
+}
+
+.section-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transform: translateY(0); /* Keep the card in its position */
+}
+
+.section-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Styled Lists in Sections */
+section ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+section ul li {
+  margin-bottom: 10px;
+}
+
+/* Call-to-Action Button */
+.cta-btn {
+  background-color: #003366; /* Matching dark blue background */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #005e92; /* Lighter blue on hover */
+}
+
+/* Small Text or Footnotes in Section */
+section .small-text {
+  font-size: 14px;
+  color: #666; /* Lighter gray for small text */
+  margin-top: 20px;
+  text-align: center;
+}
