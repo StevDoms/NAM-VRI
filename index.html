@@ -64,18 +64,31 @@
     <section id="methods">
         <div class="section-card">
             <h2>Methods</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id volutpat neque. Aenean aliquam est a
-                est
-                fermentum, ut facilisis ipsum posuere. Donec ornare ante dui, nec malesuada ante euismod vitae. Etiam at
-                augue
-                nec purus pharetra suscipit sit amet quis orci. Nam sollicitudin neque felis, nec fermentum dui pretium
-                non.</p>
-            <ul>
-                <li>Lorem ipsum dolor sit amet</li>
-                <li>Quisque id volutpat neque</li>
-                <li>Donec ornare ante dui</li>
-                <li>Nam sollicitudin neque felis</li>
-            </ul>
+            <p>Our methodology consists of several steps to collect, process, and analyze wind speed data, identify discrepancies, and ensure the project is reproducible.</p>
+
+            <h3>Data Collection</h3>
+            <p>We gathered wind speed data from the <strong>North American Mesoscale (NAM) model</strong> by scraping SDG&E’s data repository. 
+                Weather station data is recorded daily, whereas NAM data is recorded hourly. To ensure comparability, we calculated 
+                the <strong>daily average wind speed</strong> from the NAM dataset. Additionally, we focused on dates when PSPS was under 
+                consideration, totaling <strong>179 unique dates</strong> between 2012 and 2024.</p>
+
+            <p>Beyond wind speed data, we also collected <strong>elevation data</strong> for all weather station and NAM points. 
+                This was accomplished by using the <strong>Open-Elevation API</strong>, which provided elevation values based on 
+                the latitude and longitude of each point.</p>
+
+            <p>Since the NAM dataset covers the entire United States, we filtered the data to focus on SDG&E’s operational area. 
+                This was achieved by obtaining <strong>shapefiles</strong> for <strong>San Diego County and Southern Orange County</strong>, 
+                ensuring that only relevant geographic data was analyzed.</p>
+
+            <h3>Data Processing</h3>
+            <p>To prepare our data for analysis, we merged multiple datasets, ensuring that only relevant columns were included. This process involved combining weather station data, weather station wind speeds, NAM data, and VRI polygons to create a dataset containing only NAM points within VRI polygons. Additionally, we calculated the Haversine distance from each NAM point to its respective weather station, which serves as a key variable in our model. We also computed the absolute error between the wind speed observed by each NAM point and its corresponding weather station.</p>
+
+            <h3>Predicting Error Outside VRI Polygon</h3>  
+            <p>To estimate wind speed error in areas without weather stations, we trained a LightGBM model using NAM wind speed, NAM elevation, nearest weather station elevation, distance to the nearest station, month, and day of the year as features. The target variable is the absolute wind speed error. Since NAM points outside the VRI polygons lack direct station data, we assigned them values from the nearest weather station, assuming similar wind conditions.</p>  
+            <p>Using a model rather than directly applying the nearest station’s wind speed allows us to account for spatial and environmental variations, especially in complex terrains. The inclusion of temporal features (month and day of year) helps capture seasonal and diurnal wind patterns, improving prediction accuracy and generalizability to regions without direct weather station measurements.</p>
+
+            
+
         </div>
     </section>
 

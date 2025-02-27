@@ -156,7 +156,15 @@ section h2 {
   font-size: 32px; /* Larger font size for section headings */
   margin-bottom: 20px; /* Add some space below the header */
   font-weight: bold;
-  text-align: center; /* Center-align section headings */
+  text-align: left; /* Center-align section headings */
+}
+
+section h3 {
+  color: #003366; /* Dark blue headers to align with landing page */
+  font-size: 25px; /* Larger font size for section headings */
+  margin-bottom: 20px; /* Add some space below the header */
+  font-weight: bold;
+  text-align: left; /* Center-align section headings */
 }
 
 /* Paragraph Styling */
