@@ -29,16 +29,41 @@
 
   <section id="introduction">
         <div class="section-card">
-            <h2>Introduction</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, purus eget laoreet tempor, neque
-                risus
-                varius orci, et auctor magna ligula a enim. Vivamus sit amet turpis sit amet ante posuere feugiat. Sed at
-                arcu
-                dolor. Proin eget arcu sed felis pretium scelerisque.</p>
-            <p>Curabitur vel ligula urna. Integer ac ipsum at urna luctus egestas. Ut convallis, nulla ac dapibus
-                ultricies,
-                urna ante suscipit elit, sed tincidunt turpis ante ac turpis. Aenean eget lacus sit amet purus feugiat
-                dignissim.</p>
+            <h2>Introductions</h2>
+            <p>Recent wildfires, such as the Palisades Wildfire and the San Diego Border Wildfires, highlight the growing 
+                threat of wildfires to communities, ecosystems, and infrastructure. These fires are driven by a mix of 
+                climate change and human activities, making accurate weather data essential for wildfire prevention and response.
+            </p>
+            
+            <p>Since 2007, SDG&E has installed weather stations to improve wildfire mitigation efforts. One key strategy is 
+                <strong>Public Safety Power Shutoffs (PSPS)</strong>—temporary power shutoffs during extreme weather conditions 
+                to reduce fire risk. The decision to implement PSPS is based on weather station data, particularly wind speeds. 
+                Each weather station is linked to a <strong>VRI polygon</strong>, an area where the station's readings are assumed 
+                to represent local wind conditions. However, in larger VRI polygons, wind speeds can vary significantly, reducing 
+                the accuracy of these readings.
+            </p>
+            
+            <p>Our project focuses on improving wind speed accuracy by identifying areas where 
+                <strong>wind speed measurements differ significantly</strong> between local weather stations and the 
+                <strong>North American Mesoscale (NAM) model</strong>, a weather forecasting tool. Large discrepancies between 
+                these datasets could indicate regions where wind speed estimates are unreliable, affecting PSPS decisions.
+            </p>
+
+            <p>To address this, we use <strong>machine learning (LightGBM)</strong> to estimate wind speed discrepancies and 
+                refine VRI polygon boundaries. By doing so, we can improve the accuracy of wildfire risk assessments and help 
+                ensure PSPS is only implemented when truly necessary.
+            </p>
+
+            <p>Our initial analysis shows that NAM wind speeds tend to <strong>underestimate</strong> actual wind speeds, with 
+                a moderate correlation of 0.58 between the two datasets. Mapping these discrepancies reveals that errors are most 
+                common in valleys around San Diego, where wind conditions can be complex. Additionally, we use historical research 
+                on NAM model errors to support our findings and refine our approach.
+            </p>
+
+            <p>By improving the accuracy of wind speed data and redefining VRI polygons, our project provides a 
+                <strong>data-driven approach to wildfire mitigation</strong>, helping utilities like SDG&E make better-informed 
+                decisions about PSPS events and reducing risks for communities in wildfire-prone areas.
+            </p>
         </div>
     </section>
 
