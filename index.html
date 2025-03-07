@@ -14,6 +14,7 @@
       <li><a href="#introduction">Introduction</a></li>
       <li><a href="#methods">Methods</a></li>
       <li><a href="#results">Results</a></li>
+      <li><a href="#discussion">Discussion</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
     </ul>
   </nav>
@@ -21,44 +22,46 @@
   <header>
     <h1>Wind Speed Discrepancy Analysis and VRI Polygon Optimization with NAM Data</h1>
     <div class="repo-container">
-        <a href="#" class="repo-box">Website Repo</a>
-        <a href="#" class="repo-box">Code Repo</a>
-        <a href="#" class="repo-box">Report</a>
+        <a href="https://github.com/StevDoms/NAM-VRI" target="_blank" class="repo-box">Website Repo</a>
+        <a href="https://github.com/StevDoms/SDGE_NAM_Analysis" target="_blank" class="repo-box">Code Repo</a>
+        <a href="https://github.com/StevDoms/NAM-VRI-artifact/blob/main/report.pdf" target="_blank" class="repo-box">Report</a>
     </div>
  </header>
 
   <section id="introduction">
         <div class="section-card">
             <h2>Introduction</h2>
-            <p>Recent wildfires, such as the Palisades Wildfire and the San Diego Border Wildfires, highlight the growing 
-                threat of wildfires to communities, ecosystems, and infrastructure. These fires are driven by a mix of 
-                climate change and human activities, making accurate weather data essential for wildfire prevention and response.
-            </p>
-            
-            <p>Since 2007, SDG&E has installed weather stations to improve wildfire mitigation efforts. One key strategy is 
-                <strong>Public Safety Power Shutoffs (PSPS)</strong>—temporary power shutoffs during extreme weather conditions 
-                to reduce fire risk. The decision to implement PSPS is based on weather station data, particularly wind speeds. 
-                Each weather station is linked to a <strong>VRI polygon</strong>, an area where the station's readings are assumed 
-                to represent local wind conditions. However, in larger VRI polygons, wind speeds can vary significantly, reducing 
-                the accuracy of these readings.
-            </p>
-            
-            <p>Our project focuses on improving wind speed accuracy by identifying areas where 
-                <strong>wind speed measurements differ significantly</strong> between local weather stations and the 
-                <strong>North American Mesoscale (NAM) model</strong>, a weather forecasting tool. Large discrepancies between 
-                these datasets could indicate regions where wind speed estimates are unreliable, affecting PSPS decisions.
-            </p>
+            <p>Recent wildfires, such as the Palisades Wildfire and the San Diego Border Wildfires, highlight the increasing 
+                threat of wildfires to communities, ecosystems, and infrastructure. These fires result from a combination of 
+                climate change and human activities, emphasizing the importance of accurate weather data—especially wind speed 
+                data—for wildfire risk assessment and mitigation.</p>
 
-            <p>To address this, we use machine learning <strong>(LightGBM)</strong> to estimate wind speed discrepancies and 
-                refine VRI polygon boundaries. By doing so, we can improve the accuracy of wildfire risk assessments and help 
-                ensure PSPS is only implemented when truly necessary.
-            </p>
+            <p>Since 2007, SDG&E has installed weather stations to enhance wildfire prevention efforts. One key strategy is 
+                <strong>Public Safety Power Shutoffs (PSPS)</strong>, where power is temporarily shut off during extreme weather 
+                conditions to reduce fire risk. PSPS decisions rely heavily on wind speed data collected from weather stations. 
+                Each station is linked to a <strong>Vegetation Risk Index (VRI) polygon</strong>, an area where the station’s 
+                readings are assumed to represent local wind conditions. These polygons are designed based on factors like 
+                topography, historical weather patterns, and vegetation density. However, in larger VRI polygons, wind speed 
+                conditions can vary significantly, potentially reducing the accuracy of wildfire risk assessments.</p>
 
-            <p>By improving the accuracy of wind speed data and redefining VRI polygons, our project provides a 
-                <strong>data-driven approach to wildfire mitigation</strong>, helping utilities like SDG&E make better-informed 
-                decisions about PSPS events and reducing risks for communities in wildfire-prone areas.
-            </p>
+            <p>Our project aims to improve wind speed accuracy by identifying areas where wind speed measurements from local 
+                weather stations differ significantly from those predicted by the 
+                <strong>North American Mesoscale (NAM) model</strong>, a widely used weather forecasting system. Large discrepancies 
+                between NAM predictions and station data could indicate areas where wind estimates are unreliable, which may 
+                impact PSPS decisions.</p>
+
+            <p>To address these challenges, we use a machine learning approach with <strong>LightGBM</strong> to estimate wind 
+                speed discrepancies and refine VRI polygon boundaries. By analyzing the top 20 NAM points with the highest 
+                discrepancies within a polygon, we reassign them to the nearest alternative VRI polygon, helping to reduce 
+                wind speed errors. This process aims to create a more accurate representation of wind conditions, ensuring that 
+                PSPS is only implemented when truly necessary.</p>
+
+            <p>By refining VRI polygon boundaries and improving wind speed accuracy, our project provides a 
+                <strong>data-driven approach to wildfire risk assessment</strong>. These improvements help utilities like SDG&E 
+                make better-informed PSPS decisions, ultimately enhancing wildfire mitigation efforts and reducing risks for 
+                communities in fire-prone areas.</p>
         </div>
+
     </section>
 
     <section id="methods">
@@ -67,7 +70,7 @@
             <p>Our methodology consists of several steps to collect, process, and analyze wind speed data, identify discrepancies, and ensure the project is reproducible.</p>
 
             <h3>Data Collection</h3>
-            <p>We gathered wind speed data from the <strong>North American Mesoscale (NAM) model</strong> by scraping SDG&E’s data repository. 
+            <p>We gathered wind speed data from the <strong>North American Mesoscale (NAM) model</strong> by compiling it from SDG&E’s data repository. 
                 Weather station data is recorded daily, whereas NAM data is recorded hourly. To ensure comparability, we calculated 
                 the <strong>daily average wind speed</strong> from the NAM dataset. Additionally, we focused on dates when PSPS was under 
                 consideration, totaling <strong>179 unique dates</strong> between 2012 and 2024.</p>
@@ -84,10 +87,17 @@
             <p>To prepare our data for analysis, we merged multiple datasets, ensuring that only relevant columns were included. This process involved combining weather station data, weather station wind speeds, NAM data, and VRI polygons to create a dataset containing only NAM points within VRI polygons. Additionally, we calculated the Haversine distance from each NAM point to its respective weather station, which serves as a key variable in our model. We also computed the absolute error between the wind speed observed by each NAM point and its corresponding weather station.</p>
 
             <h3>Predicting Error Outside VRI Polygon</h3>  
-            <p>To estimate wind speed error in areas without weather stations, we trained a LightGBM model using NAM wind speed, NAM elevation, nearest weather station elevation, distance to the nearest station, month, and day of the year as features. The target variable is the absolute wind speed error. Since NAM points outside the VRI polygons lack direct station data, we assigned them values from the nearest weather station, assuming similar wind conditions.</p>  
+            <p>To estimate wind speed error in areas without weather stations, we trained a <strong>LightGBM</strong> model using NAM wind speed, NAM elevation, weather station elevation, distance to the station, month, and day of the year as features. The target variable is the <strong>absolute wind speed error</strong>. Since NAM points outside the VRI polygons lack direct station data, we assigned them values from the nearest weather station, assuming similar wind conditions.</p>  
             <p>Using a model rather than directly applying the nearest station’s wind speed allows us to account for spatial and environmental variations, especially in complex terrains. The inclusion of temporal features (month and day of year) helps capture seasonal and diurnal wind patterns, improving prediction accuracy and generalizability to regions without direct weather station measurements.</p>
 
-            
+            <h3>Wind Speed Discrepancy Analysis</h3>
+            <p>
+                The first analysis identifies wind speed discrepancies of NAM points within the VRI polygons. Inside VRI polygons, we assess error distribution, compute the Mean Absolute Error (MAE), and analyze correlations between elevation, distance, and wind speed error. Spatial patterns are visualized using Folium maps to identify trends in the error.
+            </p>
+            <p>
+                The second analysis identifies wind speed discrepancies of NAM points outside the VRI polygons. We use LightGBM-predicted errors to evalute the Mean Absolute Error (MAE) of each NAM points and filter points with outlier error values to locate high-error regions. Manual polygon boundaries are drawn around these areas, and SDG&E assets within them are mapped to identify potential locations for additional wind speed data collection, enhancing overall prediction accuracy.
+            </p>
+            <p>To improve wind speed accuracy, we used a <strong>Haversine distance-based approach</strong> to find the nearest VRI polygons for reassignment. Each NAM point was mapped to its current VRI polygon, and we identified the closest alternative polygons, excluding its original assignment. The points were reassigned to polygons with better wind speed accuracy. To measure the effectiveness, we compared the wind speed errors before and after reassignment, focusing on metrics like <strong>Mean Absolute Error (MAE)</strong> and <strong>error reduction</strong>. We also calculated the <strong>overall MAE decrease</strong> and <strong>percentage improvement</strong> in prediction accuracy.</p>
 
         </div>
     </section>
@@ -95,32 +105,108 @@
     <section id="results">
         <div class="section-card">
             <h2>Results</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non sapien nec mauris suscipit elementum
-                vitae
-                sit amet neque. Nulla eget velit nec arcu luctus feugiat. Cras non est in leo interdum varius non vitae
-                risus.
-                Aenean sollicitudin vestibulum lacus sit amet tincidunt. Sed tempus ex et nunc pharetra tincidunt. Vivamus
-                sed
-                tortor sit amet ligula ullamcorper fermentum a nec augue.</p>
-            <p>Nam convallis elit libero, et convallis mauris hendrerit non. Integer id auctor libero. Ut scelerisque
-                sapien et
-                risus ultricies malesuada. Duis interdum est at orci pretium malesuada. Donec eget nunc a odio dictum
-                vestibulum.
-            </p>
+            <h3>Model</h3>
+            <p>The LightGBM model is trained using over 102,000 rows of NAM points within the VRI polygon, filtered by date, and split into 80% training and 20% testing sets. The model achieves a Mean Absolute Error (MAE) of <strong>2.7</strong> and an R<sup>2</sup> score of <strong>0.66</strong>. Feature importance analysis shows that NAM wind speed is the most significant factor, with a score of 0.3, followed by day of year and station elevation. The model is then used to predict the absolute error for over 600,000 NAM points outside the VRI polygons.</p>
+
+            <img src="image/feature_importance.png" alt="LightGBM Feature Importance" style="width: 50%; height: auto;"/>
+
+            <h3>NAM Points Within VRI Polygon</h3>
+            <p>The Mean Absolute Error (MAE) of NAM points within the VRI polygon is right-skewed, with a central tendency around 10 mph and an outlier of 18.3 mph. A correlation analysis shows that elevation is more strongly correlated with MAE than distance. Several map visualizations were created to analyze NAM points based on different criteria, such as outlier values and the top points with the highest MAE. Observations indicate that NAM points in elongated VRI polygons tend to have higher MAE, and larger VRI polygons with high MAE generally show more errors in wind speed predictions. The correlation between MAE and polygon size is weakly negative overall, but for the top 20 polygons with the highest MAE, it turns positive, suggesting that larger polygons may have more discrepancies in NAM wind speed predictions.</p>
+
+            <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+                <img src="image/nam_abs_error.png" alt="LightGBM Feature Importance" style="width: 40%; height: auto;" />
+                <img src="image/abs_error_corr.png" alt="LightGBM Feature Importance" style="width: 40%; height: auto;" />
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: flex-start; gap: 20px;">
+                <div style="flex: 1; text-align: center;">
+                    <iframe src="./map/nam_within_vri_outlier.html" width="100%" height="400px" style="border: none; border-radius: 8px;"></iframe>
+                    <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">NAM Points with Outlier MAE</p>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <!-- Add a similar iframe or content for the second section if needed -->
+                    <iframe src="./map/nam_within_vri_top_20.html" width="100%" height="400px" style="border: none; border-radius: 8px;"></iframe>
+                    <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">NAM Points with Top 20 Highest Error </p>
+                </div>
+            </div>
+
+            <h3>NAM Points Outside VRI Polygon</h3>
+            <p>We analyzed the predicted Mean Absolute Error (MAE) for NAM points outside the VRI polygons, finding that station elevation has the strongest correlation (0.90), followed by NAM elevation (0.55) and distance to the nearest station (0.13). This confirms the significant role of elevation in wind speed errors. Several map visualizations were created to explore spatial trends, including NAM points with outlier MAE over the threshold value of 20.096 mph. We identified five clusters with high errors: Otay Mountains, Cleveland National Forest, CA 78, Sawtooth Mountains, and Monkey Hill. Only <strong>CA 78</strong> and <strong>Sawtooth Mountains</strong> are relevant to SDG&E's operations, containing assets and customers.</p>
+
+            <table>
+                <caption>Assets & Customers Affected</caption>
+                <thead>
+                    <tr>
+                        <th>Boundary</th>
+                        <th>Asset Count</th>
+                        <th>Customer Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CA 78</td>
+                        <td>459</td>
+                        <td>232</td>
+                    </tr>
+                    <tr>
+                        <td>Sawtooth Mountains</td>
+                        <td>401</td>
+                        <td>118</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: flex-start; gap: 20px;">
+                <div style="flex: 1; text-align: center;">
+                    <iframe src="./map/nam_outside_vri_error.html" width="100%" height="400px" style="border: none; border-radius: 8px;"></iframe>
+                    <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">NAM Points Outside VRI Polygon</p>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <!-- Add a similar iframe or content for the second section if needed -->
+                    <iframe src="./map/nam_outside_vri_error_outlier.html" width="100%" height="400px" style="border: none; border-radius: 8px;"></iframe>
+                    <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">Outlier NAM Points with Boundaries </p>
+                </div>
+            </div>
+
+            <h3>VRI Polygon Reassignment</h3>
+            <p>The reassignment of NAM points to the nearest VRI polygon led to a significant reduction in wind speed errors for <strong>18/20</strong> of the top NAM points with the highest MAE errors. The MAE for these points decreased from <strong>25.76 mph</strong> to <strong>11.68 mph</strong>, an improvement of <strong>14.07 mph</strong>, with an overall percentage decrease of <strong>54.64%</strong>. The reassignment improved prediction accuracy by reallocating NAM points to alternative VRI polygons with better wind speed characteristics. The table below summarizes the error reductions:</p>
+
+            <table>
+                <caption><strong>Summary of Wind Speed Error Reductions After VRI Polygon Reassignment</strong></caption>
+                <tr>
+                    <th>Metric</th>
+                    <th>Before Reassignment</th>
+                    <th>After Reassignment</th>
+                    <th>Improvement</th>
+                </tr>
+                <tr>
+                    <td>Mean MAE Wind Speed (mph)</td>
+                    <td>25.78</td>
+                    <td>11.68</td>
+                    <td>14.07</td>
+                </tr>
+                <tr>
+                    <td>Overall Percentage Decrease (%)</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>54.64%</td>
+                </tr>
+            </table>
+
+        </div>
+    </section>
+
+    <section id="discussion">
+        <div class="section-card">
+            <h2>Discussion</h2>
+            <p>This project analyzes wind speed discrepancies related to NAM points, VRI polygons, and weather stations, highlighting challenges like biases in wind speed data distribution and gaps in smaller VRI polygons. By expanding the dataset and using statistical weighting, the accuracy of wind speed predictions could improve. Additionally, the project proposes representing wind speed errors on a grid-based system, addressing limitations posed by individual NAM points. Manual boundaries were drawn for identifying clusters of high-error NAM points, as K-means clustering did not capture the irregular error distribution or geographical constraints. The VRI polygon optimization process focuses on improving NAM point assignments rather than reshaping boundaries, offering valuable insights for SDG&E decision-makers. Future iterations of this project will enhance wind speed data accuracy, aiding SDG&E in better PSPS decision-making, resource allocation, and wildfire risk mitigation to strengthen grid reliability and safety.</p>
         </div>
     </section>
 
     <section id="conclusion">
         <div class="section-card">
             <h2>Conclusion</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat felis ut risus faucibus tincidunt.
-                Mauris
-                vitae ex sollicitudin, gravida ipsum a, egestas lorem. Nam fringilla nisi eget erat volutpat, non mollis
-                ligula
-                suscipit. Donec a scelerisque nunc. Ut sollicitudin tincidunt tempor.</p>
-            <p>Nulla facilisi. Fusce condimentum lorem non felis laoreet fermentum. Morbi finibus at orci a condimentum. Etiam
-                vitae
-                felis auctor, auctor odio at, tincidunt elit. Ut eu justo ut sapien consectetur vestibulum a sit amet leo.</p>
+            <p>This project demonstrates the potential of optimizing VRI polygon assignments to significantly improve wind speed prediction accuracy, which can support SDG&E’s infrastructure development and wildfire mitigation efforts. Our findings highlight how targeted reassignment of NAM points based on wind speed characteristics can reduce mean absolute error by over 50%, making a notable impact on grid reliability. Looking forward, expanding the dataset, incorporating more weather variables, and refining reassignment methodologies could further enhance the analysis, strengthening SDG&E’s ability to address wildfire risks and improve infrastructure resilience.</p>
         </div>
     </section>
 

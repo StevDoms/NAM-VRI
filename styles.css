@@ -142,7 +142,7 @@ nav ul li a:hover {
 
 /* Section Styling */
 section {
-  padding: 60px 30px; /* More padding for a spacious look */
+  padding: 30px 30px; /* More padding for a spacious look */
   background-color: #F4F7FA; /* Light gray background for the section */
   color: #333; /* Dark text for readability */
   box-sizing: border-box;
@@ -233,4 +233,34 @@ section .small-text {
   color: #666; /* Lighter gray for small text */
   margin-top: 20px;
   text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+table caption {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+table th, table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+table th {
+  background-color: #001f3f;;
+  color: white;
+}
+table td {
+  background-color: #f9f9f9;
+}
+table tr:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+table tr:hover td {
+  background-color: #e2e2e2;
 }
